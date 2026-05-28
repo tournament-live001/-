@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Esports Championship</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* CSS Variables for Premium Theme */
+        :root {
+            --neon-blue: #00f2fe;
+            --neon-purple: #9d4edd;
+            --neon-pink: #ff007f;
+            --neon-cyan: #05f3ff;
+            --neon-orange: #ff6b00;
+            --dark-bg: #030308;
+            --card-bg: rgba(8, 8, 16, 0.88);
+            --border-color: rgba(255, 255, 255, 0.06);
+            --glow-blue: 0 0 20px rgba(0, 242, 254, 0.3);
+            --glow-purple: 0 0 20px rgba(157, 78, 221, 0.3);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --font-display: 'Rajdhani', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        /* Reset & Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-purple);
+            border-radius: 3px;
+        }
+
+        /* Ambient Animated Background Gradients */
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .ambient-glow-1 {
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 60%;
+            height: 60%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.12) 0%, transparent 75%);
+            animation: floatGlow 15s infinite alternate ease-in-out;
+        }
+
+        .ambient-glow-2 {
+            position: absolute;
+            bottom: -10%;
+            right: -10%;
+            width: 60%;
+            height: 60%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(157, 78, 221, 0.1) 0%, transparent 75%);
+            animation: floatGlow 20s infinite alternate-reverse ease-in-out;
+        }
+
+        @keyframes floatGlow {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(8%, 4%) scale(1.05); }
+        }
+
+        /* Particle Canvas */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Layout Container */
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header Style */
+        .brand-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .brand-logo {
+            font-family: var(--font-display);
+            font-size: 2.4rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            background: linear-gradient(135deg, var(--neon-blue) 0%, var(--neon-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-shadow: 0 0 35px rgba(0, 242, 254, 0.25);
+        }
+
+        .brand-logo i {
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--neon-blue) 0%, var(--neon-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-tagline {
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* Ticker Alert Banner */
+        .ticker-container {
+            width: 100%;
+            background: rgba(10, 10, 20, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px 14px;
+            overflow: hidden;
+            white-space: nowrap;
+            margin-bottom: 18px;
+            box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.05);
+        }
+
+        .ticker-text {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--neon-blue);
+            animation: marquee 16s linear infinite;
+            padding-left: 100%;
+        }
+
+        @keyframes marquee {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
+        /* Glassmorphism Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 30px 24px;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.04);
+            transition: border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        /* Form Controls */
+        .form-title {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .form-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 22px;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            background: rgba(15, 15, 30, 0.6);
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px 16px 15px 46px;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--neon-blue);
+            box-shadow: var(--glow-blue);
+            background: rgba(15, 15, 30, 0.8);
+        }
+
+        .form-control:focus ~ .input-icon {
+            color: var(--neon-blue);
+        }
+
+        /* Password Toggle */
+        .toggle-password {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .toggle-password:hover {
+            color: var(--text-primary);
+        }
+
+        /* Default Premium Button Design */
+        .btn-premium {
+            width: 100%;
+            position: relative;
+            background: linear-gradient(135deg, var(--neon-blue) 0%, var(--neon-purple) 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            color: var(--text-primary);
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.2);
+            z-index: 1;
+        }
+
+        .btn-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s ease;
+            z-index: -1;
+        }
+
+        .btn-premium:hover::before {
+            left: 100%;
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--glow-blue), var(--glow-purple);
+            letter-spacing: 2.5px;
+        }
+
+        .btn-premium:active {
+            transform: translateY(1px);
+        }
+
+        /* Switch Route Link */
+        .route-switch {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .route-switch span {
+            color: var(--neon-blue);
+            cursor: pointer;
+            font-weight: 600;
+            transition: text-shadow 0.3s ease;
+            margin-left: 4px;
+        }
+
+        .route-switch span:hover {
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+            text-decoration: underline;
+        }
+
+        /* Page System Transitions */
+        .page {
+            display: none;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .page.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- HOME PAGE UPGRADE STYLES --- */
+        
+        /* Registration Open Badge */
+        .badge-reg-open {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 242, 254, 0.1);
+            border: 1px solid rgba(0, 242, 254, 0.35);
+            border-radius: 50px;
+            padding: 8px 18px;
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            color: var(--neon-blue);
+            text-transform: uppercase;
+            margin: 0 auto 18px auto;
+            box-shadow: inset 0 0 10px rgba(0, 242, 254, 0.1), 0 0 20px rgba(0, 242, 254, 0.2);
+            position: relative;
+        }
+
+        .badge-reg-open::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background-color: var(--neon-cyan);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px var(--neon-cyan);
+            animation: beaconPulse 1s infinite alternate;
+        }
+
+        @keyframes beaconPulse {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(1.3); opacity: 1; }
+        }
+
+        .user-operative {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-align: center;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            text-transform: uppercase;
+        }
+
+        .operative-id {
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+            font-weight: 800;
+        }
+
+        /* Premium Tournament Card Layout with Glow Borders */
+        .tournament-premium-card {
+            position: relative;
+            background: rgba(10, 10, 22, 0.9);
+            border-radius: 20px;
+            padding: 24px 18px;
+            margin-bottom: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(157, 78, 221, 0.25);
+            box-shadow: 0 0 25px rgba(157, 78, 221, 0.15);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Animated glowing border lines */
+        .tournament-premium-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                from 0deg,
+                transparent,
+                var(--neon-blue),
+                var(--neon-purple),
+                var(--neon-orange),
+                transparent
+            );
+            animation: rotateGlowBorder 10s linear infinite;
+            z-index: 1;
+            opacity: 0.45;
+            pointer-events: none;
+        }
+
+        .tournament-premium-card::after {
+            content: '';
+            position: absolute;
+            inset: 1px;
+            background: rgba(6, 6, 12, 0.96);
+            border-radius: 19px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        @keyframes rotateGlowBorder {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .tournament-card-content {
+            position: relative;
+            z-index: 3;
+        }
+
+        /* Neon Fire/Glow Header */
+        .tournament-title-glowing {
+            font-family: var(--font-display);
+            font-size: 1.55rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-align: center;
+            margin-bottom: 22px;
+            text-transform: uppercase;
+            color: #ffffff;
+            text-shadow: 0 0 8px rgba(255, 107, 0, 0.6), 0 0 20px rgba(255, 107, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            animation: fireFlicker 1.5s infinite alternate;
+        }
+
+        @keyframes fireFlicker {
+            0% { text-shadow: 0 0 8px rgba(255, 107, 0, 0.6), 0 0 15px rgba(255, 107, 0, 0.3); }
+            100% { text-shadow: 0 0 12px rgba(255, 107, 0, 0.8), 0 0 25px rgba(255, 107, 0, 0.5); }
+        }
+
+        .tournament-premium-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.15), 0 0 35px rgba(157, 78, 221, 0.2);
+            border-color: rgba(0, 242, 254, 0.4);
+        }
+
+        /* Detailed Points Styling */
+        .info-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            font-family: var(--font-body);
+            font-size: 0.88rem;
+            color: var(--text-primary);
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .info-item i {
+            font-size: 1.05rem;
+            width: 24px;
+            display: flex;
+            justify-content: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .info-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-right: 6px;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        /* Customized highlights */
+        .color-blue { color: var(--neon-blue); }
+        .color-purple { color: var(--neon-purple); }
+        .color-orange { color: var(--neon-orange); }
+        .color-cyan { color: var(--neon-cyan); }
+        .color-pink { color: var(--neon-pink); }
+        .color-success { color: #00e676; }
+
+        .rules-breakline {
+            border-top: 1px dashed rgba(255, 255, 255, 0.15);
+            margin: 10px 0;
+        }
+
+        /* Action Buttons Area */
+        .action-buttons-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .btn-action-container {
+            position: relative;
+            width: 100%;
+        }
+
+        /* Base class for upgraded action buttons */
+        .btn-esports-action {
+            position: relative;
+            border: none;
+            border-radius: 14px;
+            padding: 16px;
+            color: #ffffff;
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            overflow: hidden;
+            z-index: 5;
+        }
+
+        /* Button 1 Styling */
+        .btn-cyan-glow {
+            background: linear-gradient(135deg, #1d976c 0%, #93f9b9 100%);
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+        }
+
+        /* Button 2 Styling */
+        .btn-purple-glow {
+            background: linear-gradient(135deg, var(--neon-purple) 0%, var(--neon-pink) 100%);
+            box-shadow: 0 0 20px rgba(157, 78, 221, 0.3);
+        }
+
+        /* Pulsing ring background element */
+        .btn-action-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 14px;
+            z-index: 1;
+            opacity: 0.5;
+            animation: pulseWave 2s infinite ease-out;
+        }
+
+        .container-btn-cyan::before {
+            background: linear-gradient(135deg, #00f2fe, #4facfe);
+        }
+
+        .container-btn-purple::before {
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+        }
+
+        @keyframes pulseWave {
+            0% { transform: scale(0.98); opacity: 0.6; }
+            100% { transform: scale(1.05, 1.15); opacity: 0; }
+        }
+
+        .btn-esports-action:hover {
+            transform: scale(1.02);
+            letter-spacing: 2.5px;
+        }
+
+        .btn-cyan-glow:hover {
+            box-shadow: 0 0 30px rgba(0, 242, 254, 0.6);
+        }
+
+        .btn-purple-glow:hover {
+            box-shadow: 0 0 30px rgba(157, 78, 221, 0.6);
+        }
+
+        .btn-esports-action i {
+            font-size: 1.35rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Custom Ripple */
+        .btn-esports-action .ripple-wave {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.35);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: rippleEffect 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes rippleEffect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Notice Panel Styles */
+        .notice-panel {
+            background: rgba(255, 107, 0, 0.05);
+            border: 1px solid rgba(255, 107, 0, 0.25);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 15px rgba(255, 107, 0, 0.05);
+        }
+
+        .notice-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--neon-orange);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .notice-header i {
+            animation: warningPulse 1s infinite alternate;
+        }
+
+        @keyframes warningPulse {
+            0% { transform: scale(1); opacity: 0.7; }
+            100% { transform: scale(1.15); opacity: 1; }
+        }
+
+        .notice-desc {
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #ffd2b3;
+            text-align: justify;
+        }
+
+        .logout-link {
+            text-align: center;
+            margin-top: 10px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .logout-link:hover {
+            color: var(--neon-pink);
+        }
+
+        /* Toast System */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        @media (max-width: 480px) {
+            .toast-container {
+                right: 20px;
+                left: 20px;
+                top: auto;
+                bottom: 20px;
+            }
+        }
+
+        .toast {
+            background: rgba(8, 8, 16, 0.95);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--neon-blue);
+            color: var(--text-primary);
+            padding: 16px 20px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideIn 0.3s forwards cubic-bezier(0.25, 0.8, 0.25, 1);
+            pointer-events: auto;
+        }
+
+        .toast.success {
+            border-left-color: #00e676;
+        }
+
+        .toast.error {
+            border-left-color: var(--neon-pink);
+            animation: slideIn 0.3s forwards cubic-bezier(0.25, 0.8, 0.25, 1), shakeCard 0.4s;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Shake Effect */
+        @keyframes shakeCard {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        .shake {
+            animation: shakeCard 0.4s ease;
+        }
+
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--dark-bg);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(0, 242, 254, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--neon-blue);
+            border-right-color: var(--neon-purple);
+            animation: spin 1s infinite linear;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .preloader-text {
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            letter-spacing: 3px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Glow Effects -->
+    <div class="ambient-bg">
+        <div class="ambient-glow-1"></div>
+        <div class="ambient-glow-2"></div>
+    </div>
+
+    <!-- Interactive Canvas Particles Background -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="spinner"></div>
+        <div class="preloader-text">Loading Esports System...</div>
+    </div>
+
+    <div class="app-container">
+        
+        <!-- Header Branding -->
+        <header class="brand-header">
+            <h1 class="brand-logo">
+                <i class="fa-solid fa-crosshairs"></i> NEXUS
+            </h1>
+            <p class="brand-tagline">Esports League</p>
+        </header>
+
+        <!-- Dynamic Content Area -->
+        <main class="card" id="form-card">
+            
+            <!-- REGISTER VIEW -->
+            <section id="register-page" class="page active">
+                <h2 class="form-title">Create Operative</h2>
+                <p class="form-subtitle">Enlist to access active tournament entries.</p>
+                
+                <form id="register-form" autocomplete="off">
+                    <div class="form-group">
+                        <input type="tel" id="reg-phone" class="form-control" placeholder="Phone Number" required autocomplete="off">
+                        <i class="fa-solid fa-mobile-screen-button input-icon"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="password" id="reg-pass" class="form-control" placeholder="Access Password" required autocomplete="new-password">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <i class="fa-solid fa-eye toggle-password" data-target="reg-pass"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" id="reg-confirm" class="form-control" placeholder="Confirm Password" required autocomplete="off">
+                        <i class="fa-solid fa-shield-halved input-icon"></i>
+                        <i class="fa-solid fa-eye toggle-password" data-target="reg-confirm"></i>
+                    </div>
+
+                    <button type="submit" class="btn-premium">
+                        <span>INITIATE SIGN-UP</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+
+                <div class="route-switch">
+                    Already registered? <span onclick="switchPage('login-page')">Access Profile</span>
+                </div>
+            </section>
+
+            <!-- LOGIN VIEW -->
+            <section id="login-page" class="page">
+                <h2 class="form-title">Operative Log In</h2>
+                <p class="form-subtitle">Verify your secure authorization credentials.</p>
+                
+                <form id="login-form" autocomplete="off">
+                    <div class="form-group">
+                        <input type="tel" id="login-phone" class="form-control" placeholder="Phone Number" required autocomplete="off">
+                        <i class="fa-solid fa-mobile-screen-button input-icon"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="password" id="login-pass" class="form-control" placeholder="Enter Password" required autocomplete="current-password">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <i class="fa-solid fa-eye toggle-password" data-target="login-pass"></i>
+                    </div>
+
+                    <button type="submit" class="btn-premium">
+                        <span>ESTABLISH LINK</span>
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                    </button>
+                </form>
+
+                <div class="route-switch">
+                    New Operative? <span onclick="switchPage('register-page')">Create Identity</span>
+                </div>
+            </section>
+
+            <!-- HOME / DASHBOARD VIEW (UPGRADED) -->
+            <section id="home-page" class="page">
+                
+                <!-- Animated Scrolling Banner -->
+                <div class="ticker-container">
+                    <div class="ticker-text">
+                        🚨 SYSTEM ALERT: Bermuda Custom lobby passwords will be published in Telegram group 1 hour before scheduled match kickoff • Ensure anti-cheat active! •
+                    </div>
+                </div>
+
+                <div style="text-align: center;">
+                    <div class="badge-reg-open">
+                        Registration Open
+                    </div>
+                </div>
+                
+                <div class="user-operative">
+                    Operative: <span class="operative-id" id="user-display-id">+00 00000000</span>
+                </div>
+
+                <!-- Premium Glowing Animated Card -->
+                <div class="tournament-premium-card">
+                    <div class="tournament-card-content">
+                        <h3 class="tournament-title-glowing">
+                            🔥 FREE FIRE BERMUDA TOURNAMENT 🔥
+                        </h3>
+                        
+                        <ul class="info-list">
+                            <li class="info-item">
+                                <i class="fa-solid fa-gamepad color-blue"></i>
+                                <span class="info-label">Format:</span>
+                                <span class="info-value">Full Squad Custom Match</span>
+                            </li>
+                            <li class="info-item">
+                                <i class="fa-solid fa-map-location-dot color-purple"></i>
+                                <span class="info-label">Map:</span>
+                                <span class="info-value">Bermuda</span>
+                            </li>
+                            <li class="info-item">
+                                <i class="fa-solid fa-ticket-alt color-success"></i>
+                                <span class="info-label">Entry Fee:</span>
+                                <span class="info-value color-success">Check Telegram Group Update</span>
+                            </li>
+                            <li class="info-item">
+                                <i class="fa-solid fa-users color-cyan"></i>
+                                <span class="info-label">Per Team:</span>
+                                <span class="info-value">4 Players</span>
+                            </li>
+                            <li class="info-item">
+                                <i class="fa-solid fa-ban color-pink"></i>
+                                <span class="info-label">Restriction:</span>
+                                <span class="info-value">Single Player Registration Not Allowed</span>
+                            </li>
+                            
+                            <!-- Bengali Instruction Rules -->
+                            <li class="rules-breakline"></li>
+                            
+                            <li class="info-item">
+                                <i class="fa-solid fa-square-check color-orange"></i>
+                                <span class="info-value">নিজের Team নিয়েই Registration করতে হবে</span>
+                            </li>
+                            <li class="info-item">
+                                <i class="fa-solid fa-square-check color-orange"></i>
+                                <span class="info-value">ফাস্ট এ টেলিগ্রাম গ্রুপ জয়েন করতে হবে</span>
+                            </li>
+                            <li class="info-item">
+                                <i class="fa-solid fa-square-check color-orange"></i>
+                                <span class="info-value">আপনার নিজের টিম বানাতে হবে</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Dual Action Premium Buttons Area -->
+                <div class="action-buttons-group">
+                    
+                    <!-- Button 1: Join Telegram Group -->
+                    <div class="btn-action-container container-btn-cyan">
+                        <a href="https://t.me/+HrEHLM9TOnowMDll" target="_blank" class="btn-esports-action btn-cyan-glow trigger-ripple">
+                            <i class="fa-brands fa-telegram"></i>
+                            <span>JOIN TELEGRAM GROUP</span>
+                        </a>
+                    </div>
+
+                    <!-- Button 2: Contact Admin & Full Registration -->
+                    <div class="btn-action-container container-btn-purple">
+                        <a href="https://t.me/TOURNAMENT_0001" target="_blank" class="btn-esports-action btn-purple-glow trigger-ripple">
+                            <i class="fa-solid fa-headset"></i>
+                            <span>CONTACT ADMIN & REGISTRATION</span>
+                        </a>
+                    </div>
+                    
+                </div>
+
+                <!-- Notice Panel below second button -->
+                <div class="notice-panel">
+                    <div class="notice-header">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span>OFFICIAL NOTICE</span>
+                    </div>
+                    <p class="notice-desc">
+                        Full registration complete করতে এবং basic details জানার জন্য Telegram Admin এর সাথে যোগাযোগ করুন। Admin active থাকলে দ্রুত reply দেওয়া হবে। আমরা এই tournament অনেক বড় level এ আয়োজন করতে চাই।
+                    </p>
+                </div>
+
+                <!-- Session Disconnect -->
+                <div class="logout-link" onclick="logoutOperative()">
+                    <i class="fa-solid fa-power-off"></i> Disconnect Session
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // Particle Background System (Mobile optimized)
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+        const maxParticles = 35;
+
+        class Particle {
+            constructor(width, height) {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.35;
+                this.speedY = (Math.random() - 0.5) * 0.35;
+                this.color = Math.random() > 0.5 ? 'rgba(0, 242, 254, 0.25)' : 'rgba(157, 78, 221, 0.25)';
+            }
+
+            update(width, height) {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0 || this.x > width) this.speedX *= -1;
+                if (this.y < 0 || this.y > height) this.speedY *= -1;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particlesArray = [];
+            for (let i = 0; i < maxParticles; i++) {
+                particlesArray.push(new Particle(canvas.width, canvas.height));
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update(canvas.width, canvas.height);
+                particlesArray[i].draw();
+                
+                for (let j = i; j < particlesArray.length; j++) {
+                    const dx = particlesArray[i].x - particlesArray[j].x;
+                    const dy = particlesArray[i].y - particlesArray[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 90) {
+                        ctx.strokeStyle = `rgba(157, 78, 221, ${0.12 - distance/900})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                        ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Initialize Systems on Page Load
+        window.addEventListener('load', () => {
+            initParticles();
+            animateParticles();
+            
+            // Remove Loader smoothly
+            setTimeout(() => {
+                const loader = document.getElementById('preloader');
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 500);
+            }, 800);
+
+            // Maintain login status
+            const sessionUser = sessionStorage.getItem('nexus_logged_user');
+            if (sessionUser) {
+                document.getElementById('user-display-id').innerText = sessionUser;
+                switchPage('home-page', true);
+            }
+        });
+
+        // Interactive Click Ripple Effect
+        document.querySelectorAll('.trigger-ripple').forEach(button => {
+            button.addEventListener('click', function (e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const ripple = document.createElement('span');
+                ripple.className = 'ripple-wave';
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Toast Notification System
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            let icon = '<i class="fa-solid fa-circle-info"></i>';
+            if (type === 'success') icon = '<i class="fa-solid fa-circle-check" style="color: #00e676;"></i>';
+            if (type === 'error') icon = '<i class="fa-solid fa-triangle-exclamation" style="color: var(--neon-pink);"></i>';
+
+            toast.innerHTML = `${icon} <span>${message}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '1';
+            }, 50);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(-10px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Custom Routing Layout Switches
+        function switchPage(pageId, skipAnimation = false) {
+            const activePage = document.querySelector('.page.active');
+            const targetPage = document.getElementById(pageId);
+
+            if (activePage === targetPage) return;
+
+            if (skipAnimation) {
+                if (activePage) activePage.classList.remove('active');
+                targetPage.classList.add('active');
+                return;
+            }
+
+            if (activePage) {
+                activePage.style.opacity = '0';
+                activePage.style.transform = 'translateY(-15px)';
+                
+                setTimeout(() => {
+                    activePage.classList.remove('active');
+                    targetPage.classList.add('active');
+                    
+                    void targetPage.offsetWidth; 
+                    
+                    targetPage.style.opacity = '1';
+                    targetPage.style.transform = 'translateY(0)';
+                }, 300);
+            } else {
+                targetPage.classList.add('active');
+            }
+        }
+
+        // Toggle Form Password Obfuscation
+        document.querySelectorAll('.toggle-password').forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const passwordInput = document.getElementById(targetId);
+                
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    this.classList.remove('fa-eye');
+                    this.classList.add('fa-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    this.classList.remove('fa-eye-slash');
+                    this.classList.add('fa-eye');
+                }
+            });
+        });
+
+        // Register Logic validation
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const cardElement = document.getElementById('form-card');
+            const phone = document.getElementById('reg-phone').value.trim();
+            const pass = document.getElementById('reg-pass').value;
+            const confirmPass = document.getElementById('reg-confirm').value;
+
+            if (phone.length < 8) {
+                cardElement.classList.add('shake');
+                showToast('Please enter a valid phone number.', 'error');
+                setTimeout(() => cardElement.classList.remove('shake'), 500);
+                return;
+            }
+
+            if (pass.length < 5) {
+                cardElement.classList.add('shake');
+                showToast('Password must contain at least 5 characters.', 'error');
+                setTimeout(() => cardElement.classList.remove('shake'), 500);
+                return;
+            }
+
+            if (pass !== confirmPass) {
+                cardElement.classList.add('shake');
+                showToast('Verification passwords do not match.', 'error');
+                setTimeout(() => cardElement.classList.remove('shake'), 500);
+                return;
+            }
+
+            let users = JSON.parse(localStorage.getItem('nexus_registered_users')) || [];
+            const userExists = users.some(u => u.phone === phone);
+            
+            if (userExists) {
+                cardElement.classList.add('shake');
+                showToast('This phone is already registered.', 'error');
+                setTimeout(() => cardElement.classList.remove('shake'), 500);
+                return;
+            }
+
+            users.push({ phone, password: pass });
+            localStorage.setItem('nexus_registered_users', JSON.stringify(users));
+
+            showToast('Registration Success! Opening Login...', 'success');
+            
+            setTimeout(() => {
+                document.getElementById('register-form').reset();
+                switchPage('login-page');
+            }, 1000);
+        });
+
+        // Login Logic validation
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const cardElement = document.getElementById('form-card');
+            const phone = document.getElementById('login-phone').value.trim();
+            const pass = document.getElementById('login-pass').value;
+
+            let users = JSON.parse(localStorage.getItem('nexus_registered_users')) || [];
+            const authenticatedUser = users.find(u => u.phone === phone && u.password === pass);
+
+            if (!authenticatedUser) {
+                cardElement.classList.add('shake');
+                showToast('Access Denied. Wrong credentials.', 'error');
+                setTimeout(() => cardElement.classList.remove('shake'), 500);
+                return;
+            }
+
+            document.getElementById('user-display-id').innerText = authenticatedUser.phone;
+            sessionStorage.setItem('nexus_logged_user', authenticatedUser.phone);
+
+            showToast('Handshake verified. Access granted.', 'success');
+
+            setTimeout(() => {
+                document.getElementById('login-form').reset();
+                switchPage('home-page');
+            }, 1000);
+        });
+
+        // Logout Session Reset
+        function logoutOperative() {
+            sessionStorage.removeItem('nexus_logged_user');
+            showToast('Session logged out successfully.', 'info');
+            switchPage('login-page');
+        }
+    </script>
+</body>
+</html>
