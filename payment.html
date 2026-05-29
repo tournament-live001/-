@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournament Payment | Coming Soon</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* CSS Variables for Premium Theme */
+        :root {
+            --neon-blue: #00f2fe;
+            --neon-purple: #9d4edd;
+            --neon-pink: #ff007f;
+            --neon-cyan: #05f3ff;
+            --neon-green: #00e676;
+            --dark-bg: #030308;
+            --card-bg: rgba(8, 8, 16, 0.88);
+            --border-color: rgba(255, 255, 255, 0.06);
+            --glow-green: 0 0 25px rgba(0, 230, 118, 0.35);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --font-display: 'Rajdhani', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        /* Reset & Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Canvas Particles */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Ambient Glow Effects */
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .ambient-glow-1 {
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 60%;
+            height: 60%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 230, 118, 0.1) 0%, transparent 75%);
+            animation: floatGlow 15s infinite alternate ease-in-out;
+        }
+
+        .ambient-glow-2 {
+            position: absolute;
+            bottom: -10%;
+            right: -10%;
+            width: 60%;
+            height: 60%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(157, 78, 221, 0.08) 0%, transparent 75%);
+            animation: floatGlow 20s infinite alternate-reverse ease-in-out;
+        }
+
+        @keyframes floatGlow {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(6%, 3%) scale(1.05); }
+        }
+
+        /* Layout Container */
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Glassmorphism Card System */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px 30px;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.04);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Neon Rotating Border Line on Payment Card */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                from 0deg,
+                transparent,
+                var(--neon-green),
+                var(--neon-cyan),
+                transparent
+            );
+            animation: rotateGlowBorder 12s linear infinite;
+            z-index: 1;
+            opacity: 0.35;
+            pointer-events: none;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            inset: 1.5px;
+            background: rgba(6, 6, 12, 0.96);
+            border-radius: 23px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        @keyframes rotateGlowBorder {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Badge design */
+        .badge-coming-soon {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 230, 118, 0.08);
+            border: 1px solid rgba(0, 230, 118, 0.25);
+            border-radius: 50px;
+            padding: 8px 18px;
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--neon-green);
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            box-shadow: inset 0 0 10px rgba(0, 230, 118, 0.1), 0 0 15px rgba(0, 230, 118, 0.1);
+        }
+
+        .badge-coming-soon i {
+            animation: beaconPulse 1.2s infinite alternate;
+        }
+
+        @keyframes beaconPulse {
+            0% { opacity: 0.4; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1.1); }
+        }
+
+        /* Title with Fire Glowing Effects */
+        .payment-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #ffffff;
+            margin-bottom: 24px;
+            text-shadow: 0 0 10px rgba(0, 230, 118, 0.5), 0 0 25px rgba(0, 230, 118, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .loading-animation {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 28px auto;
+            position: relative;
+        }
+
+        /* Double rotating rings */
+        .ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px solid transparent;
+            border-radius: 50%;
+            animation: ringSpin 1.5s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        }
+
+        .ring-1 {
+            border-top-color: var(--neon-green);
+            animation-delay: -0.45s;
+        }
+
+        .ring-2 {
+            border-right-color: var(--neon-cyan);
+            animation-delay: -0.3s;
+        }
+
+        .ring-3 {
+            border-bottom-color: var(--neon-purple);
+        }
+
+        @keyframes ringSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Message Box styling */
+        .info-announcement {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px 20px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .accent-text {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--neon-cyan);
+            margin-bottom: 12px;
+            letter-spacing: 1.5px;
+        }
+
+        .desc-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .desc-text:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Buttons layout grid */
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .btn-action-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .btn-payment-action {
+            position: relative;
+            border: none;
+            border-radius: 14px;
+            padding: 16px;
+            color: #ffffff;
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            overflow: hidden;
+            z-index: 5;
+        }
+
+        .btn-home {
+            background: rgba(10, 10, 20, 0.8);
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
+        }
+
+        .btn-telegram {
+            background: linear-gradient(135deg, #24A1DE 0%, #1e83b5 100%);
+            box-shadow: 0 0 15px rgba(36, 161, 222, 0.25);
+        }
+
+        .btn-payment-action:hover {
+            transform: scale(1.02);
+            letter-spacing: 2.5px;
+        }
+
+        .btn-home:hover {
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.4);
+            background: rgba(0, 242, 254, 0.1);
+        }
+
+        .btn-telegram:hover {
+            box-shadow: 0 0 25px rgba(36, 161, 222, 0.5);
+        }
+
+        .btn-payment-action i {
+            font-size: 1.35rem;
+        }
+
+        /* Ripple effect stylesheet logic */
+        .btn-payment-action .ripple-wave {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: rippleEffect 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes rippleEffect {
+            to { transform: scale(4); opacity: 0; }
+        }
+
+        /* Loading Screen overlay */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--dark-bg);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(0, 230, 118, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--neon-green);
+            border-right-color: var(--neon-cyan);
+            animation: spin 1s infinite linear;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Gradients -->
+    <div class="ambient-bg">
+        <div class="ambient-glow-1"></div>
+        <div class="ambient-glow-2"></div>
+    </div>
+
+    <!-- Background particles dynamic system -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Page Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="app-container">
+        
+        <main class="card">
+            <div class="card-content">
+                
+                <!-- Status Badge -->
+                <div class="badge-coming-soon">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>COMING SOON</span>
+                </div>
+
+                <!-- Main Title -->
+                <h1 class="payment-title">
+                    <i class="fa-solid fa-credit-card"></i> PAYMENT SYSTEM
+                </h1>
+
+                <!-- Double Ring Infinite loading spinner -->
+                <div class="loading-animation">
+                    <div class="ring ring-1"></div>
+                    <div class="ring ring-2"></div>
+                    <div class="ring ring-3"></div>
+                </div>
+
+                <!-- Message description layout -->
+                <div class="info-announcement">
+                    <h3 class="accent-text">
+                        ⚡ Tournament Payment System Coming Soon... ⚡
+                    </h3>
+                    <p class="desc-text">
+                        🔥 We are preparing a secure and professional payment system for all tournament teams.
+                    </p>
+                    <p class="desc-text" style="color: var(--neon-green); font-weight: 600;">
+                        ⏳ Please wait for official payment announcement.
+                    </p>
+                </div>
+
+                <!-- Navigation buttons -->
+                <div class="buttons-container">
+                    
+                    <a href="index.html" class="btn-payment-action btn-home trigger-ripple">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>BACK TO HOME</span>
+                    </a>
+
+                    <a href="https://t.me/+HrEHLM9TOnowMDll" target="_blank" class="btn-payment-action btn-telegram trigger-ripple">
+                        <i class="fa-brands fa-telegram"></i>
+                        <span>JOIN TELEGRAM GROUP</span>
+                    </a>
+
+                </div>
+
+            </div>
+        </main>
+
+    </div>
+
+    <script>
+        // --- MOBILE FRIENDLY BACKGROUND PARTICLES ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+        const maxParticles = 30;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.35;
+                this.speedY = (Math.random() - 0.5) * 0.35;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+
+            draw() {
+                ctx.fillStyle = 'rgba(0, 230, 118, 0.2)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particlesArray = [];
+            for (let i = 0; i < maxParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particlesArray.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Initialize Systems
+        window.addEventListener('load', () => {
+            initParticles();
+            animateParticles();
+
+            // Hide loader smoothly
+            setTimeout(() => {
+                const loader = document.getElementById('preloader');
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 500);
+            }, 600);
+        });
+
+        // Interactive Click Ripple Effect
+        document.querySelectorAll('.trigger-ripple').forEach(button => {
+            button.addEventListener('click', function (e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const ripple = document.createElement('span');
+                ripple.className = 'ripple-wave';
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+                this.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+    </script>
+</body>
+</html>
