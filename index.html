@@ -23,12 +23,14 @@
             --neon-purple: #9d4edd;
             --neon-pink: #ff007f;
             --neon-cyan: #05f3ff;
+            --neon-green: #00e676;
             --neon-orange: #ff6b00;
             --dark-bg: #030308;
             --card-bg: rgba(8, 8, 16, 0.88);
             --border-color: rgba(255, 255, 255, 0.06);
             --glow-blue: 0 0 20px rgba(0, 242, 254, 0.3);
             --glow-purple: 0 0 20px rgba(157, 78, 221, 0.3);
+            --glow-green: 0 0 20px rgba(0, 230, 118, 0.35);
             --text-primary: #ffffff;
             --text-secondary: #94a3b8;
             --font-display: 'Rajdhani', sans-serif;
@@ -124,11 +126,6 @@
             padding: 20px;
             position: relative;
             z-index: 10;
-        }
-
-        /* Large Screen Override for Admin View */
-        .app-container.admin-active {
-            max-width: 1100px;
         }
 
         /* Header Style */
@@ -380,9 +377,7 @@
             transform: translateY(0);
         }
 
-        /* --- HOME PAGE UPGRADE STYLES --- */
-        
-        /* Registration Status Badge */
+        /* Registration Open Badge */
         .badge-reg-open {
             display: inline-flex;
             align-items: center;
@@ -425,7 +420,7 @@
             letter-spacing: 1px;
             text-align: center;
             color: var(--text-primary);
-            margin-bottom: 12px;
+            margin-bottom: 24px;
             text-transform: uppercase;
         }
 
@@ -448,9 +443,9 @@
             font-family: var(--font-display);
             font-size: 0.8rem;
             font-weight: 700;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
             text-transform: uppercase;
-            padding: 4px 12px;
+            padding: 4px 10px;
             border-radius: 4px;
             background: rgba(255, 255, 255, 0.05);
         }
@@ -486,7 +481,6 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Animated glowing border lines */
         .tournament-premium-card::before {
             content: '';
             position: absolute;
@@ -662,6 +656,12 @@
             box-shadow: 0 0 20px rgba(157, 78, 221, 0.3);
         }
 
+        /* NEW BUTTON: Payment Button (Green + Cyan Glow) */
+        .btn-green-glow {
+            background: linear-gradient(135deg, var(--neon-green) 0%, var(--neon-cyan) 100%);
+            box-shadow: var(--glow-green);
+        }
+
         /* Pulsing ring background element */
         .btn-action-container::before {
             content: '';
@@ -684,18 +684,24 @@
             background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
         }
 
+        /* Dynamic pulsing container for green payment button */
+        .container-btn-green::before {
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+        }
+
+        @keyframes pulseWave {
+            0% { transform: scale(0.98); opacity: 0.6; }
+            100% { transform: scale(1.05, 1.15); opacity: 0; }
+        }
+
         .btn-esports-action:hover {
             transform: scale(1.02);
             letter-spacing: 2.5px;
         }
 
-        .btn-cyan-glow:hover {
-            box-shadow: 0 0 30px rgba(0, 242, 254, 0.6);
-        }
-
-        .btn-purple-glow:hover {
-            box-shadow: 0 0 30px rgba(157, 78, 221, 0.6);
-        }
+        .btn-cyan-glow:hover { box-shadow: 0 0 30px rgba(0, 242, 254, 0.6); }
+        .btn-purple-glow:hover { box-shadow: 0 0 30px rgba(157, 78, 221, 0.6); }
+        .btn-green-glow:hover { box-shadow: 0 0 30px rgba(0, 230, 118, 0.7); }
 
         .btn-esports-action i {
             font-size: 1.35rem;
@@ -710,6 +716,10 @@
             transform: scale(0);
             animation: rippleEffect 0.6s linear;
             pointer-events: none;
+        }
+
+        @keyframes rippleEffect {
+            to { transform: scale(4); opacity: 0; }
         }
 
         /* Notice Panel Styles */
@@ -748,206 +758,20 @@
             text-align: justify;
         }
 
-        /* --- ADMIN PANEL SYSTEM --- */
-        .admin-dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: rgba(15, 15, 30, 0.6);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.02);
-        }
-
-        .stat-card i {
-            font-size: 2rem;
-            color: var(--neon-blue);
-        }
-
-        .stat-details h4 {
-            font-family: var(--font-display);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-secondary);
-        }
-
-        .stat-details p {
-            font-family: var(--font-display);
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #ffffff;
-        }
-
-        .search-wrapper {
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .search-control {
-            width: 100%;
-            background: rgba(15, 15, 30, 0.7);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 14px 16px 14px 44px;
-            color: #ffffff;
-            font-family: var(--font-body);
-            font-size: 0.9rem;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .search-control:focus {
-            border-color: var(--neon-blue);
-            box-shadow: var(--glow-blue);
-        }
-
-        /* Admin Table */
-        .table-container {
-            width: 100%;
-            overflow-x: auto;
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            background: rgba(10, 10, 20, 0.4);
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.88rem;
-            text-align: left;
-        }
-
-        th {
-            background: rgba(15, 15, 30, 0.85);
-            font-family: var(--font-display);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-secondary);
-            padding: 14px 16px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        td {
-            padding: 14px 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            vertical-align: middle;
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        tr:hover td {
-            background: rgba(255, 255, 255, 0.01);
-        }
-
-        .action-btn-group {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-table-action {
-            border: none;
-            background: rgba(255, 255, 255, 0.05);
-            color: #ffffff;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-        }
-
-        .btn-table-action:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn-approve:hover {
-            background: rgba(0, 230, 118, 0.2);
-            color: #00e676;
-        }
-
-        .btn-reject:hover {
-            background: rgba(255, 107, 0, 0.2);
-            color: var(--neon-orange);
-        }
-
-        .btn-delete:hover {
-            background: rgba(255, 0, 127, 0.2);
-            color: var(--neon-pink);
-        }
-
-        .btn-copy:hover {
-            background: rgba(0, 242, 254, 0.2);
-            color: var(--neon-blue);
-        }
-
-        .terminal-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 14px;
-        }
-
-        .terminal-nav h2 {
-            font-family: var(--font-display);
-            font-size: 1.4rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--neon-blue);
-        }
-
-        .btn-close-terminal {
-            background: rgba(255, 0, 127, 0.1);
-            border: 1px solid rgba(255, 0, 127, 0.3);
-            border-radius: 8px;
-            padding: 8px 16px;
-            color: var(--neon-pink);
-            font-family: var(--font-display);
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn-close-terminal:hover {
-            background: var(--neon-pink);
-            color: #ffffff;
-            box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
-        }
-
-        .admin-link-anchor {
+        .logout-link {
             text-align: center;
-            margin-top: 18px;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.15);
+            margin-top: 10px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
             cursor: pointer;
             transition: color 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
-        .admin-link-anchor:hover {
-            color: var(--neon-blue);
+        .logout-link:hover {
+            color: var(--neon-pink);
         }
 
-        /* Toast notifications styling */
+        /* Toast System */
         .toast-container {
             position: fixed;
             top: 20px;
@@ -1034,16 +858,16 @@
         <div class="ambient-glow-2"></div>
     </div>
 
-    <!-- Canvas Particles -->
+    <!-- Interactive Canvas Particles Background -->
     <canvas id="particle-canvas"></canvas>
 
-    <!-- Toast Notifications -->
+    <!-- Toast Container -->
     <div class="toast-container" id="toast-container"></div>
 
     <!-- Preloader -->
     <div class="preloader" id="preloader">
         <div class="spinner"></div>
-        <div class="preloader-text">Configuring Secure Channels...</div>
+        <div class="preloader-text">Loading Esports System...</div>
     </div>
 
     <div class="app-container" id="app-wrapper">
@@ -1056,7 +880,7 @@
             <p class="brand-tagline">Esports League</p>
         </header>
 
-        <!-- Main Card Section -->
+        <!-- Dynamic Content Area -->
         <main class="card" id="form-card">
             
             <!-- REGISTER VIEW -->
@@ -1068,7 +892,7 @@
                     
                     <div class="form-section-title">Security Credentials</div>
                     <div class="form-group">
-                        <input type="tel" id="reg-phone" class="form-control" placeholder="Phone Number (e.g. 01712345678)" required>
+                        <input type="tel" id="reg-phone" class="form-control" placeholder="Phone Number" required>
                         <i class="fa-solid fa-mobile-screen-button input-icon"></i>
                     </div>
                     
@@ -1090,7 +914,7 @@
                         <i class="fa-solid fa-shield-cat input-icon"></i>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="reg-leader-name" class="form-control" placeholder="Team Leader / In-Game Name" required>
+                        <input type="text" id="reg-leader-name" class="form-control" placeholder="Team Leader Name" required>
                         <i class="fa-solid fa-user-gear input-icon"></i>
                     </div>
                     <div class="form-group">
@@ -1153,41 +977,12 @@
                 <div class="route-switch">
                     New Operative? <span onclick="switchPage('register-page')">Create Identity</span>
                 </div>
-
-                <div class="admin-link-anchor" onclick="switchPage('admin-login-page')">
-                    <i class="fa-solid fa-terminal"></i> Access System Terminal
-                </div>
             </section>
 
-            <!-- ADMIN LOGIN VIEW -->
-            <section id="admin-login-page" class="page">
-                <h2 class="form-title">System Terminal Access</h2>
-                <p class="form-subtitle">Authorized administration access point.</p>
-                
-                <form id="admin-login-form">
-                    <div class="form-group">
-                        <input type="text" id="admin-user" class="form-control" placeholder="Terminal Identifier" required autocomplete="off">
-                        <i class="fa-solid fa-hashtag input-icon"></i>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" id="admin-pass" class="form-control" placeholder="Security Protocol Pass" required autocomplete="off">
-                        <i class="fa-solid fa-key input-icon"></i>
-                        <i class="fa-solid fa-eye toggle-password" data-target="admin-pass"></i>
-                    </div>
-
-                    <button type="submit" class="btn-premium">
-                        <span>INITIALIZE ACCESS</span>
-                        <i class="fa-solid fa-fingerprint"></i>
-                    </button>
-                </form>
-
-                <div class="route-switch">
-                    Return to Login? <span onclick="switchPage('login-page')">Standard Entry</span>
-                </div>
-            </section>
-
-            <!-- HOME / DASHBOARD VIEW -->
+            <!-- HOME / DASHBOARD VIEW (UPGRADED) -->
             <section id="home-page" class="page">
+                
+                <!-- Animated Scrolling Banner -->
                 <div class="ticker-container">
                     <div class="ticker-text">
                         🚨 SYSTEM ALERT: Bermuda Custom lobby passwords will be published in Telegram group 1 hour before scheduled match kickoff • Ensure anti-cheat active! •
@@ -1210,7 +1005,7 @@
                     </div>
                 </div>
 
-                <!-- Premium Tournament Card -->
+                <!-- Premium Glowing Animated Card -->
                 <div class="tournament-premium-card">
                     <div class="tournament-card-content">
                         <h3 class="tournament-title-glowing">
@@ -1244,6 +1039,7 @@
                                 <span class="info-value">Single Player Registration Not Allowed</span>
                             </li>
                             
+                            <!-- Bengali Instruction Rules -->
                             <li class="rules-breakline"></li>
                             
                             <li class="info-item">
@@ -1262,8 +1058,10 @@
                     </div>
                 </div>
 
-                <!-- Dual Action Buttons -->
+                <!-- Three Action Premium Buttons Area -->
                 <div class="action-buttons-group">
+                    
+                    <!-- Button 1: Join Telegram Group -->
                     <div class="btn-action-container container-btn-cyan">
                         <a href="https://t.me/+HrEHLM9TOnowMDll" target="_blank" class="btn-esports-action btn-cyan-glow trigger-ripple">
                             <i class="fa-brands fa-telegram"></i>
@@ -1271,15 +1069,25 @@
                         </a>
                     </div>
 
+                    <!-- Button 2: Contact Admin & Full Registration -->
                     <div class="btn-action-container container-btn-purple">
                         <a href="https://t.me/TOURNAMENT_0001" target="_blank" class="btn-esports-action btn-purple-glow trigger-ripple">
                             <i class="fa-solid fa-headset"></i>
                             <span>CONTACT ADMIN & REGISTRATION</span>
                         </a>
                     </div>
+
+                    <!-- Button 3: Tournament Payment -->
+                    <div class="btn-action-container container-btn-green">
+                        <a href="payment.html" class="btn-esports-action btn-green-glow trigger-ripple">
+                            <i class="fa-solid fa-credit-card"></i>
+                            <span>💳 TOURNAMENT PAYMENT</span>
+                        </a>
+                    </div>
+                    
                 </div>
 
-                <!-- Official Notice Box -->
+                <!-- Notice Panel below buttons -->
                 <div class="notice-panel">
                     <div class="notice-header">
                         <i class="fa-solid fa-circle-exclamation"></i>
@@ -1290,69 +1098,9 @@
                     </p>
                 </div>
 
-                <!-- Disconnect Action -->
+                <!-- Session Disconnect -->
                 <div class="logout-link" onclick="logoutOperative()">
                     <i class="fa-solid fa-power-off"></i> Disconnect Session
-                </div>
-            </section>
-
-            <!-- ADMIN DASHBOARD PANEL -->
-            <section id="admin-dashboard-page" class="page">
-                <div class="terminal-nav">
-                    <h2>Terminal Interface</h2>
-                    <button class="btn-close-terminal" onclick="logoutAdmin()">Close Link</button>
-                </div>
-
-                <!-- Admin Analytics Cards -->
-                <div class="admin-dashboard">
-                    <div class="stat-card">
-                        <i class="fa-solid fa-shield-halved"></i>
-                        <div class="stat-details">
-                            <h4>Total Teams</h4>
-                            <p id="stat-total-teams">0</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fa-solid fa-user-group" style="color: var(--neon-purple);"></i>
-                        <div class="stat-details">
-                            <h4>Total Players</h4>
-                            <p id="stat-total-players">0</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fa-solid fa-circle-check" style="color: #00e676;"></i>
-                        <div class="stat-details">
-                            <h4>Approved</h4>
-                            <p id="stat-approved-teams">0</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Search Filter -->
-                <div class="search-wrapper">
-                    <input type="text" id="admin-search" class="search-control" placeholder="Filter roster index by Team Name, Leader Name, or Phone..." oninput="filterRosters()">
-                    <i class="fa-solid fa-magnifying-glass input-icon"></i>
-                </div>
-
-                <!-- Live Responsive Table -->
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Team Name</th>
-                                <th>Leader</th>
-                                <th>Telegram</th>
-                                <th>Roster (Players 1-4)</th>
-                                <th>Phone</th>
-                                <th>Pass</th>
-                                <th>Status</th>
-                                <th style="text-align: right;">Terminal Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="admin-records-table">
-                            <!-- Injected live dynamic entries -->
-                        </tbody>
-                    </table>
                 </div>
             </section>
 
@@ -1360,7 +1108,7 @@
     </div>
 
     <script>
-        // --- FIREBASE CONFIGURATION & INITIALIZATION ---
+        // --- FIREBASE CONFIGURATION ---
         const firebaseConfig = {
             apiKey: "AIzaSyCN_ZxOWET36y5gZQoiAAQ1geiSgVZeSR4",
             authDomain: "fir-281b8.firebaseapp.com",
@@ -1371,16 +1119,12 @@
             appId: "1:263142834518:web:1da31aebf18177735d96f7"
         };
 
-        // Standard compat-style initialization
+        // Initialize Firebase Compat
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.database();
 
-        // Admin Credentials
-        const ADMIN_TERM_ID = "01700000000";
-        const ADMIN_TERM_KEY = "admin123";
-
-        // --- PARTICLE BACKGROUND SYSTEM ---
+        // Particle Background System (Mobile optimized)
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let particlesArray = [];
@@ -1449,7 +1193,58 @@
             canvas.height = window.innerHeight;
         });
 
-        // --- TOAST NOTIFICATIONS ---
+        // Initialize Systems on Page Load
+        window.addEventListener('load', () => {
+            initParticles();
+            animateParticles();
+            
+            // Remove Loader smoothly
+            const sessionUser = localStorage.getItem('nexus_logged_phone');
+            const sessionUid = localStorage.getItem('nexus_logged_uid');
+
+            setTimeout(() => {
+                const loader = document.getElementById('preloader');
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 500);
+
+                if (sessionUser && sessionUid) {
+                    document.getElementById('user-display-id').innerText = sessionUser;
+                    syncLiveStatus(sessionUid);
+                    switchPage('home-page', true);
+                }
+            }, 800);
+        });
+
+        // Interactive Click Ripple Effect
+        document.querySelectorAll('.trigger-ripple').forEach(button => {
+            button.addEventListener('click', function (e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const ripple = document.createElement('span');
+                ripple.className = 'ripple-wave';
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Realtime status listener
+        function syncLiveStatus(uid) {
+            const badge = document.getElementById('registration-status-badge');
+            db.ref(`users/${uid}/status`).on('value', snapshot => {
+                const status = snapshot.val() || 'pending';
+                badge.className = `status-badge ${status}`;
+                badge.innerHTML = `<i class="fa-solid ${status === 'approved' ? 'fa-circle-check' : status === 'rejected' ? 'fa-circle-xmark' : 'fa-hourglass-half'}"></i> Status: ${status}`;
+            });
+        }
+
+        // Toast Notification System
         function showToast(message, type = 'info') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -1462,7 +1257,9 @@
             toast.innerHTML = `${icon} <span>${message}</span>`;
             container.appendChild(toast);
 
-            setTimeout(() => { toast.style.opacity = '1'; }, 50);
+            setTimeout(() => {
+                toast.style.opacity = '1';
+            }, 50);
 
             setTimeout(() => {
                 toast.style.opacity = '0';
@@ -1471,20 +1268,12 @@
             }, 3000);
         }
 
-        // --- ROUTING / NAV SYSTEM ---
+        // Custom Routing Layout Switches
         function switchPage(pageId, skipAnimation = false) {
-            const wrapper = document.getElementById('app-wrapper');
             const activePage = document.querySelector('.page.active');
             const targetPage = document.getElementById(pageId);
 
             if (activePage === targetPage) return;
-
-            // Admin Page Container Optimization
-            if (pageId === 'admin-dashboard-page') {
-                wrapper.classList.add('admin-active');
-            } else {
-                wrapper.classList.remove('admin-active');
-            }
 
             if (skipAnimation) {
                 if (activePage) activePage.classList.remove('active');
@@ -1499,7 +1288,9 @@
                 setTimeout(() => {
                     activePage.classList.remove('active');
                     targetPage.classList.add('active');
+                    
                     void targetPage.offsetWidth; 
+                    
                     targetPage.style.opacity = '1';
                     targetPage.style.transform = 'translateY(0)';
                 }, 300);
@@ -1508,7 +1299,7 @@
             }
         }
 
-        // Toggle Obfuscated Passwords
+        // Toggle Form Password Obfuscation
         document.querySelectorAll('.toggle-password').forEach(toggle => {
             toggle.addEventListener('click', function() {
                 const targetId = this.getAttribute('data-target');
@@ -1526,28 +1317,10 @@
             });
         });
 
-        // Click ripple visual mechanics
-        document.querySelectorAll('.trigger-ripple').forEach(button => {
-            button.addEventListener('click', function (e) {
-                const rect = this.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const ripple = document.createElement('span');
-                ripple.className = 'ripple-wave';
-                ripple.style.left = `${x}px`;
-                ripple.style.top = `${y}px`;
-                this.appendChild(ripple);
-                
-                setTimeout(() => ripple.remove(), 600);
-            });
-        });
-
-        // --- LOGIC: SQUAD REGISTRATION ---
+        // Register Logic validation
         document.getElementById('register-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             const cardElement = document.getElementById('form-card');
-            
             const phone = document.getElementById('reg-phone').value.trim();
             const pass = document.getElementById('reg-pass').value;
             const confirmPass = document.getElementById('reg-confirm').value;
@@ -1559,35 +1332,32 @@
             const p3 = document.getElementById('reg-p3').value.trim();
             const p4 = document.getElementById('reg-p4').value.trim();
 
-            // Simple Validations
-            if (phone.length < 10) {
-                return warnError('Enter a valid phone number identifier.');
+            if (phone.length < 8) {
+                return warnError('Please enter a valid phone number.');
             }
             if (pass !== confirmPass) {
-                return warnError('Authorization passwords do not match.');
+                return warnError('Passwords do not match.');
             }
             if (pass.length < 5) {
                 return warnError('Password must contain at least 5 characters.');
             }
 
-            showLoader('Enlisting details...');
+            document.getElementById('preloader').style.display = 'flex';
+            document.getElementById('preloader').style.opacity = '1';
 
             try {
-                // Check if phone number is already registered in RTDB
+                // Check uniqueness in database
                 const snapshot = await db.ref('users').orderByChild('phone').equalTo(phone).once('value');
                 if (snapshot.exists()) {
                     hideLoader();
-                    return warnError('Identifier already registered on another squad.');
+                    return warnError('Phone identifier already linked to a registered team.');
                 }
 
-                // Generate Email configuration using standard Email patterns inside Auth context
+                // Auth signup mapping
                 const syntheticEmail = `${phone}@nexusff.com`;
-                
-                // Create credential state inside Firebase Authentication
                 const userCredential = await auth.createUserWithEmailAndPassword(syntheticEmail, pass);
                 const uid = userCredential.user.uid;
 
-                // Model roster payload
                 const squadData = {
                     uid: uid,
                     phone: phone,
@@ -1600,11 +1370,10 @@
                     status: 'pending'
                 };
 
-                // Store payload safely in RTDB
                 await db.ref(`users/${uid}`).set(squadData);
 
                 hideLoader();
-                showToast('Roster registration confirmed!', 'success');
+                showToast('Registration complete! Access your secure profile.', 'success');
                 document.getElementById('register-form').reset();
                 switchPage('login-page');
 
@@ -1614,20 +1383,20 @@
             }
         });
 
-        // --- LOGIC: AUTHENTICATION LOGIN ---
+        // Login Logic validation
         document.getElementById('login-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             const phone = document.getElementById('login-phone').value.trim();
             const pass = document.getElementById('login-pass').value;
 
-            showLoader('Authenticating credentials...');
+            document.getElementById('preloader').style.display = 'flex';
+            document.getElementById('preloader').style.opacity = '1';
 
             try {
                 const syntheticEmail = `${phone}@nexusff.com`;
                 const userCredential = await auth.signInWithEmailAndPassword(syntheticEmail, pass);
                 const uid = userCredential.user.uid;
 
-                // Sync payload
                 const snapshot = await db.ref(`users/${uid}`).once('value');
                 const userData = snapshot.val();
 
@@ -1639,7 +1408,7 @@
                     syncLiveStatus(uid);
 
                     hideLoader();
-                    showToast('Handshake confirmed. Welcome.', 'success');
+                    showToast('Authentication complete. Terminal synchronized.', 'success');
                     
                     setTimeout(() => {
                         document.getElementById('login-form').reset();
@@ -1647,190 +1416,13 @@
                     }, 1000);
                 } else {
                     hideLoader();
-                    warnError('Operative configuration lost or deleted.');
+                    warnError('Operative file configuration lost.');
                 }
             } catch (err) {
                 hideLoader();
-                warnError('Verification failed. Invalid access inputs.');
+                warnError('Invalid terminal connection parameters.');
             }
         });
-
-        // Warn card animation wrapper
-        function warnError(msg) {
-            const cardElement = document.getElementById('form-card');
-            cardElement.classList.add('shake');
-            showToast(msg, 'error');
-            setTimeout(() => cardElement.classList.remove('shake'), 500);
-        }
-
-        // --- LOGIC: TERMINAL ADMIN LOGIN ---
-        document.getElementById('admin-login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const id = document.getElementById('admin-user').value.trim();
-            const key = document.getElementById('admin-pass').value;
-
-            if (id === ADMIN_TERM_ID && key === ADMIN_TERM_KEY) {
-                sessionStorage.setItem('admin_session_auth', 'true');
-                showToast('Handshake bypass verified. System terminal active.', 'success');
-                document.getElementById('admin-login-form').reset();
-                initializeAdminDashboard();
-            } else {
-                warnError('System Access denied. Security logged.');
-            }
-        });
-
-        // --- REAL-TIME USERS LIVE STATUS SYNC ---
-        function syncLiveStatus(uid) {
-            const badge = document.getElementById('registration-status-badge');
-            db.ref(`users/${uid}/status`).on('value', snapshot => {
-                const status = snapshot.val() || 'pending';
-                badge.className = `status-badge ${status}`;
-                badge.innerHTML = `<i class="fa-solid ${status === 'approved' ? 'fa-circle-check' : status === 'rejected' ? 'fa-circle-xmark' : 'fa-hourglass-half'}"></i> Status: ${status}`;
-            });
-        }
-
-        // --- ADMINISTRATIVE LIVE DASHBOARD ---
-        let rawRosterList = [];
-
-        function initializeAdminDashboard() {
-            switchPage('admin-dashboard-page');
-            showLoader('Mounting interface data stream...');
-
-            db.ref('users').on('value', snapshot => {
-                hideLoader();
-                const data = snapshot.val();
-                rawRosterList = [];
-
-                if (data) {
-                    for (let key in data) {
-                        rawRosterList.push(data[key]);
-                    }
-                }
-
-                renderAdminRoster(rawRosterList);
-            });
-        }
-
-        function renderAdminRoster(rosters) {
-            const tbody = document.getElementById('admin-records-table');
-            tbody.innerHTML = '';
-
-            let approvedCount = 0;
-            let totalPlayers = rosters.length * 4;
-
-            rosters.forEach(team => {
-                if (team.status === 'approved') approvedCount++;
-
-                const row = document.createElement('tr');
-                row.id = `row-${team.uid}`;
-                row.innerHTML = `
-                    <td style="font-weight: 700; color: var(--neon-blue);">${escapeHTML(team.teamName)}</td>
-                    <td>${escapeHTML(team.leaderName)}</td>
-                    <td><a href="https://t.me/${escapeHTML(team.telegram).replace('@','')}" target="_blank" style="color: var(--neon-cyan); text-decoration: none;">${escapeHTML(team.telegram)}</a></td>
-                    <td style="font-size: 0.8rem; line-height: 1.4;">
-                        1: ${escapeHTML(team.players?.p1 || '')}<br>
-                        2: ${escapeHTML(team.players?.p2 || '')}<br>
-                        3: ${escapeHTML(team.players?.p3 || '')}<br>
-                        4: ${escapeHTML(team.players?.p4 || '')}
-                    </td>
-                    <td>${escapeHTML(team.phone)}</td>
-                    <td style="font-family: monospace; color: var(--text-secondary);">${escapeHTML(team.password)}</td>
-                    <td><span class="status-badge ${team.status}">${team.status}</span></td>
-                    <td>
-                        <div class="action-btn-group" style="justify-content: flex-end;">
-                            <button class="btn-table-action btn-approve" onclick="updateTeamStatus('${team.uid}', 'approved')" title="Approve"><i class="fa-solid fa-check"></i></button>
-                            <button class="btn-table-action btn-reject" onclick="updateTeamStatus('${team.uid}', 'rejected')" title="Reject"><i class="fa-solid fa-ban"></i></button>
-                            <button class="btn-table-action btn-copy" onclick="copyTeamMeta('${team.uid}')" title="Copy Info"><i class="fa-solid fa-copy"></i></button>
-                            <button class="btn-table-action btn-delete" onclick="deleteTeamRoster('${team.uid}')" title="Delete"><i class="fa-solid fa-trash-can"></i></button>
-                        </div>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
-
-            // Counters mapping
-            document.getElementById('stat-total-teams').innerText = rosters.length;
-            document.getElementById('stat-total-players').innerText = totalPlayers;
-            document.getElementById('stat-approved-teams').innerText = approvedCount;
-        }
-
-        // Live filtration
-        function filterRosters() {
-            const query = document.getElementById('admin-search').value.toLowerCase();
-            const filtered = rawRosterList.filter(team => {
-                return (
-                    team.teamName.toLowerCase().includes(query) ||
-                    team.leaderName.toLowerCase().includes(query) ||
-                    team.phone.includes(query)
-                );
-            });
-            renderAdminRoster(filtered);
-        }
-
-        // Database mutations
-        async function updateTeamStatus(uid, status) {
-            try {
-                await db.ref(`users/${uid}`).update({ status: status });
-                showToast(`Status updated to ${status}.`, 'success');
-            } catch (err) {
-                showToast('Failed to update status.', 'error');
-            }
-        }
-
-        async function deleteTeamRoster(uid) {
-            if (confirm("Are you sure you want to permanently erase this roster allocation?")) {
-                try {
-                    await db.ref(`users/${uid}`).remove();
-                    showToast('Roster data wiped from matrix.', 'success');
-                } catch (err) {
-                    showToast('Failed to delete data.', 'error');
-                }
-            }
-        }
-
-        // Quick copy utility
-        function copyTeamMeta(uid) {
-            const team = rawRosterList.find(t => t.uid === uid);
-            if (team) {
-                const text = `TEAM: ${team.teamName}\nLEADER: ${team.leaderName}\nTELEGRAM: ${team.telegram}\nROSTER:\n1. ${team.players.p1}\n2. ${team.players.p2}\n3. ${team.players.p3}\n4. ${team.players.p4}\nPHONE: ${team.phone}`;
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('Roster metadata copied to clipboard!', 'success');
-                }).catch(() => {
-                    showToast('Failed to copy text.', 'error');
-                });
-            }
-        }
-
-        // --- SESSION LOGOUTS ---
-        function logoutOperative() {
-            const uid = localStorage.getItem('nexus_logged_uid');
-            if (uid) db.ref(`users/${uid}/status`).off();
-            
-            localStorage.removeItem('nexus_logged_uid');
-            localStorage.removeItem('nexus_logged_phone');
-            auth.signOut();
-            showToast('Disconnect complete. Identity logged out.', 'info');
-            switchPage('login-page');
-        }
-
-        function logoutAdmin() {
-            sessionStorage.removeItem('admin_session_auth');
-            db.ref('users').off(); // disconnect listening socket
-            showToast('Secure terminal terminated.', 'info');
-            switchPage('login-page');
-        }
-
-        // --- UTILS & INFRASTRUCTURE ---
-        function escapeHTML(str) {
-            return str ? str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)) : '';
-        }
-
-        function showLoader(text) {
-            const preloader = document.getElementById('preloader');
-            preloader.querySelector('.preloader-text').innerText = text;
-            preloader.style.display = 'flex';
-            preloader.style.opacity = '1';
-        }
 
         function hideLoader() {
             const loader = document.getElementById('preloader');
@@ -1838,24 +1430,24 @@
             setTimeout(() => loader.style.display = 'none', 500);
         }
 
-        // Initialize Systems
-        window.addEventListener('load', () => {
-            initParticles();
-            animateParticles();
-            
-            // Check for existing browser sessions
-            const sessionUser = localStorage.getItem('nexus_logged_phone');
-            const sessionUid = localStorage.getItem('nexus_logged_uid');
-            
-            setTimeout(() => {
-                hideLoader();
-                if (sessionUser && sessionUid) {
-                    document.getElementById('user-display-id').innerText = sessionUser;
-                    syncLiveStatus(sessionUid);
-                    switchPage('home-page', true);
-                }
-            }, 800);
-        });
+        function warnError(msg) {
+            const cardElement = document.getElementById('form-card');
+            cardElement.classList.add('shake');
+            showToast(msg, 'error');
+            setTimeout(() => cardElement.classList.remove('shake'), 500);
+        }
+
+        // Logout Session Reset
+        function logoutOperative() {
+            const uid = localStorage.getItem('nexus_logged_uid');
+            if (uid) db.ref(`users/${uid}/status`).off();
+
+            localStorage.removeItem('nexus_logged_uid');
+            localStorage.removeItem('nexus_logged_phone');
+            auth.signOut();
+            showToast('Session logged out successfully.', 'info');
+            switchPage('login-page');
+        }
     </script>
 </body>
 </html>
